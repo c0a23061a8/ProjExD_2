@@ -1,6 +1,7 @@
 import os
 import random
 import sys
+import time
 import pygame as pg
 
 
@@ -24,6 +25,33 @@ def check_bound(rct:pg.Rect) -> tuple[bool,bool]:
     return yoko,tate
 
 
+def gameover(screen :pg.Surface) -> None :
+    """
+    ゲームオーバー時に，半透明の黒い画面上に
+    「Game Over」と表示し，
+    泣いているこうかとん画像を貼り付ける関数
+    """
+    kk_img = pg.transform.rotozoom(pg.image.load("fig/8.png"), 0, 0.9)
+    
+    
+    bg_black = pg.Surface((WIDTH,HEIGHT))
+    pg.draw.rect(bg_black,(0, 0, 0),(0, 0, WIDTH, HEIGHT))
+    # bg_black_rct = bg_black.get_rect()
+    bg_black.set_alpha(120)
+    # bg_black_rct.center = 0, 0
+    # bg_black.set_colorkey((0,,0))
+    screen.blit(bg_black, [0,0])
+
+
+    font = pg.font.Font(None,50)
+    txt = font.render("Game Over",True,(255,255,255))
+    screen.blit(txt,[WIDTH//2-100, HEIGHT//2])
+    screen.blit(kk_img, [WIDTH/2-150, HEIGHT//2])
+    screen.blit(kk_img, [WIDTH/2+100, HEIGHT/2])
+    pg.display.update()
+    time.sleep(10)
+    return None
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -31,7 +59,6 @@ def main():
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 300, 200
-    bb_img = pg.Surface((20, 20))  
     bb_img = pg.Surface((20, 20))  # 爆弾用の赤い半径10の円
     pg.draw.circle(bb_img,(255, 0, 0), (10, 10), 10)
     bb_img.set_colorkey((0, 0, 0))
@@ -46,7 +73,7 @@ def main():
                 return
         # こうかとんが爆弾と衝突したらゲームオーバー
         if kk_rct.colliderect(bb_rct):
-            print("ゲームオーバー")
+            gameover(screen)
             return 
         screen.blit(bg_img, [0, 0]) 
 
