@@ -33,7 +33,7 @@ def gameover(screen :pg.Surface) -> None :
     引数：スクリーンのサーフェス
     戻り値：なし
     """
-    kk_img = pg.transform.rotozoom(pg.image.load("fig/8.png"), 0, 0.9)
+    kk_img = pg.transform.rotozoom(pg.image.load("fig/8.png"), 0, 0.9)  # fig/8.png の画像を0.9倍する
     bg_black = pg.Surface((WIDTH,HEIGHT))
     pg.draw.rect(bg_black, (0, 0, 0),(0, 0, WIDTH, HEIGHT))
     bg_black.set_alpha(120)
